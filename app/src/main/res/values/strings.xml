@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">课堂点到器</string>
+    <string name="action_settings">设置</string>
+    <string name="show_list">查看记录</string>
+    <string name="show_main">显示学生列表</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

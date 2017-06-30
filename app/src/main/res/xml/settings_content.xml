@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:title="@string/action_settings"
+
+    android:layout_width="wrap_content">
+    <PreferenceCategory
+        android:title="同学名单">
+        <EditTextPreference
+            android:dialogTitle="同学名单"
+            android:key="studentListSetting"
+            android:summary="用,隔开">
+
+        </EditTextPreference>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="课程名单">
+        <EditTextPreference
+            android:dialogTitle="课程名单"
+            android:key="classListSetting"
+            android:summary="用,隔开">
+
+        </EditTextPreference>
+    </PreferenceCategory>
+</PreferenceScreen>

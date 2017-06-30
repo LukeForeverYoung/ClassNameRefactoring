@@ -1,0 +1,58 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.luke.classnamerefactoring.StudentList">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/class_spinner">
+
+        </Spinner>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/check_text_style"
+                    android:text="未点到"
+                   />
+                <LinearLayout
+                    style="@style/name_LinearLayout"
+                    android:id="@+id/yet_layout">
+                </LinearLayout>
+                <TextView
+                    style="@style/check_text_style"
+                    android:text="迟到"/>
+                <LinearLayout
+                    style="@style/name_LinearLayout"
+                    android:id="@+id/late_layout">
+                </LinearLayout>
+                <TextView
+                    style="@style/check_text_style"
+                    android:text="已点到"
+                   />
+                <LinearLayout
+                    android:id="@+id/checked_layout"
+                    style="@style/name_LinearLayout">
+                </LinearLayout>
+                <TextView
+                    style="@style/check_text_style"
+                    android:text="请假"
+                    />
+                <LinearLayout
+                    android:id="@+id/leave_layout"
+                    style="@style/name_LinearLayout">
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+</FrameLayout>
