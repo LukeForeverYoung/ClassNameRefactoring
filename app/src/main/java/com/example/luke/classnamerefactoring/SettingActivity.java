@@ -9,6 +9,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 
 /**
@@ -20,8 +21,12 @@ public class SettingActivity extends PreferenceActivity  {
     protected void onCreate(Bundle saveInstanceState)
     {
         super.onCreate(saveInstanceState);
-        addPreferencesFromResource(R.xml.settings_content);
-
+        //addPreferencesFromResource(R.xml.settings_content);
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
+    }
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        preference.setSummary(newValue.toString());
+        return true;
     }
     public static class MyPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener
     {
@@ -36,6 +41,7 @@ public class SettingActivity extends PreferenceActivity  {
             ctp.setOnPreferenceChangeListener(this);
             stp.setSummary(stp.getText());
             ctp.setSummary(ctp.getText());
+            Log.d("111", "onCreate: ");
         }
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {

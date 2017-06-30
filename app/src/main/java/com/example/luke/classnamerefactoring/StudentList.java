@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -24,9 +25,11 @@ public class StudentList extends Fragment {
 
     View root;
     String[] mClassItems;
-    String[] StudentItems;
+    String[] mStudentItems;
     LinearLayout linearArray[];
+    Button[] mStudentButton;
     int classTag;
+    int CheckMode;
     public StudentList() {
         // Required empty public constructor
     }
@@ -39,13 +42,14 @@ public class StudentList extends Fragment {
         root=inflater.inflate(R.layout.fragment_student_list,container, false);
         initClassSelector();
         initStudentList();
+        CheckMode=3;
         return root;
     }
     void initClassSelector()
     {
         Spinner mSpinner = (Spinner) root.findViewById(R.id.class_spinner);
         SharedPreferences sp= PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mClassItems = sp.getString("studentListSetting","null").split(",|，");
+        mClassItems = sp.getString("classListSetting","null").split(",|，");
         ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,mClassItems);
         stringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(stringAdapter);
@@ -70,7 +74,36 @@ public class StudentList extends Fragment {
         linearArray[2]=(LinearLayout)root.findViewById(R.id.checked_layout);
         linearArray[3]=(LinearLayout)root.findViewById(R.id.leave_layout);
         SharedPreferences sp= PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mClassItems = sp.getString("classListSetting","null").split(",|，");
-
+        mStudentItems = sp.getString("studentListSetting","null").split(",|，");
+        mStudentButton=new Button[mStudentItems.length];
+        int ord=0;
+        for(String stu:mStudentItems)
+        {
+            mStudentButton[ord]=new Button(getActivity());
+            Button btn=mStudentButton[ord];
+            btn.setText(stu);
+            btn.setTag(0);
+            linearArray[0].addView(btn);
+            btn.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    if((int)v.getTag()==0)
+                    {
+                        linearArray[0].removeView(v);
+                        v.setTag(CheckMode);
+                        linearArray[CheckMode].addView(v);
+                    }
+                    else
+                    {
+                        linearArray[(int)v.getTag()].removeView(v);
+                        v.setTag(0);
+                        linearArray[0].addView(v);
+                    }
+                }
+            });
+            ord++;
+        }
     }
 }
