@@ -10,18 +10,22 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:id="@+id/class_spinner">
-
         </Spinner>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                >
                 <TextView
                     style="@style/check_text_style"
-                    android:text="未点到"
+                    android:text="@string/wait"
                    />
                 <LinearLayout
                     style="@style/name_LinearLayout"
@@ -29,14 +33,14 @@
                 </LinearLayout>
                 <TextView
                     style="@style/check_text_style"
-                    android:text="迟到"/>
+                    android:text="@string/late"/>
                 <LinearLayout
                     style="@style/name_LinearLayout"
                     android:id="@+id/late_layout">
                 </LinearLayout>
                 <TextView
                     style="@style/check_text_style"
-                    android:text="已点到"
+                    android:text="@string/checked"
                    />
                 <LinearLayout
                     android:id="@+id/checked_layout"
@@ -44,7 +48,7 @@
                 </LinearLayout>
                 <TextView
                     style="@style/check_text_style"
-                    android:text="请假"
+                    android:text="@string/leave"
                     />
                 <LinearLayout
                     android:id="@+id/leave_layout"

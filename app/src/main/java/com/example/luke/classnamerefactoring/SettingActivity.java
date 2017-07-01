@@ -41,6 +41,8 @@ public class SettingActivity extends PreferenceActivity  {
             ctp.setOnPreferenceChangeListener(this);
             stp.setSummary(stp.getText());
             ctp.setSummary(ctp.getText());
+            if(stp.getText()==null) stp.setSummary("请输入学生名单，用逗号隔开");
+            if(ctp.getText()==null) ctp.setSummary("请输入各课程，用逗号隔开");
             Log.d("111", "onCreate: ");
         }
         @Override

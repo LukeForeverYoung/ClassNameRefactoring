@@ -8,6 +8,15 @@ import io.realm.RealmObject;
 
 public class Student extends RealmObject
 {
-    String name;
-    String state;
+    public String stuName;
+    String getStuName()
+    {
+        return stuName;
+    }
+
+    public int state;
+    int getState()
+    {
+        return state;
+    }
 }

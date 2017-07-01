@@ -1,13 +1,94 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.luke.classnamerefactoring.StudentRecords">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/records_spinner">
+        </Spinner>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/record_list">
+
+                <android.support.v7.widget.CardView
+
+                    style="@style/CardViewStyle"
+                    card_view:cardPreventCornerOverlap="false"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                        style="@style/CardHeaderText"
+                        android:textColor="@color/redName"
+                        android:text="@string/absenteeism"/>
+                        <TextView
+                            style="@style/CardContentText"
+                            android:id="@+id/absenteeismList">
+                        </TextView>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    style="@style/CardViewStyle"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                        android:text="@string/late"
+                        android:textColor="@color/blueName"
+                        style="@style/CardHeaderText"
+                        />
+                        <TextView
+                            style="@style/CardContentText"
+                            android:id="@+id/lateList">
+                        </TextView>
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    style="@style/CardViewStyle"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                        style="@style/CardHeaderText"
+                        android:textColor="@color/origin"
+                        android:text="@string/leave"/>
+                        <TextView
+                            style="@style/CardContentText"
+                            android:id="@+id/leaveList">
+                        </TextView>
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
 
 </FrameLayout>

@@ -10,7 +10,15 @@ import io.realm.annotations.PrimaryKey;
 
 public class StudentData extends RealmObject {
     @PrimaryKey
-    String key;
-    String lesson;
-    RealmList<Student> list;
+    public String key;
+    String getKey()
+    {
+        return key;
+    }
+    public String lesson;
+    String getLesson()
+    {
+        return lesson;
+    }
+    public RealmList<Student> list;
 }
