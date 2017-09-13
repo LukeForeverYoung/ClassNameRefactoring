@@ -38,7 +38,6 @@ public class StudentList extends Fragment {
     Button[] mStudentButton;
     int classTag;
     int CheckMode;
-
     public StudentList() {
         // Required empty public constructor
         CheckMode = 2;
@@ -50,25 +49,30 @@ public class StudentList extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         root = getActivity();
-
         View temp=inflater.inflate(R.layout.fragment_student_list, container, false);
-
         return temp;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        initClassSelector();
-        initStudentList();
-        initFabListener();
         super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState==null)
+        {
+            initClassSelector();
+            initStudentList();
+            initFabListener();
+        }
     }
 
     @Override
-    public void onStart() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+    }
 
-        super.onStart();
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     void initClassSelector() {
@@ -101,6 +105,7 @@ public class StudentList extends Fragment {
             @Override
             public void onClick(View v) {
                 savingData();
+                Toast.makeText(getActivity().getApplicationContext(), "保存完毕", Toast.LENGTH_SHORT).show();
             }
         });
         fab = (FloatingActionButton) root.findViewById(R.id.changeModeFab);
@@ -178,12 +183,11 @@ public class StudentList extends Fragment {
 
     void savingData() {
         Calendar cal = Calendar.getInstance();
-        String key = cal.get(Calendar.YEAR) + "_" + cal.get(Calendar.MONTH) + "_" + cal.get(Calendar.DAY_OF_MONTH)+"_" + mClassItems[classTag];
+        String key = cal.get(Calendar.YEAR) + "_" +(Integer.valueOf(cal.get(Calendar.MONTH))+1) + "_" + cal.get(Calendar.DAY_OF_MONTH)+"_" + mClassItems[classTag];
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         RealmResults<StudentData> results = realm.where(StudentData.class).equalTo("key", key).findAll();
         results.deleteAllFromRealm();
-
         StudentData stuData;
         if (results.size() != 0)
             stuData = results.first();

@@ -22,36 +22,5 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/saveFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_save"
-        />
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/refreshFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="86dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/colorGreen"
-        app:borderWidth="0dp"
-        app:srcCompat="@drawable/refresh"
-        />
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/changeModeFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="156dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/blueName"
-        android:background="@color/origin"
 
-        app:borderWidth="0dp"
-        app:srcCompat="@drawable/change_mode"
-        />
 </android.support.design.widget.CoordinatorLayout>

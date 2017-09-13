@@ -60,13 +60,20 @@ public class MainActivity extends AppCompatActivity {
         switch (id)
         {
             case R.id.action_main:
+                ft.hide(StudentRecordsFragment);
                 nextFragment=StudentListFragment;
+                ft.show(nextFragment);
                 break;
             case R.id.action_list:
+                ft.hide(StudentListFragment);
+                ft.remove(StudentRecordsFragment);
+                StudentRecordsFragment=new StudentRecords();
+                ft.add(R.id.contentFragment,StudentRecordsFragment);
                 nextFragment=StudentRecordsFragment;
                 break;
         }
-        ft.replace(R.id.contentFragment,nextFragment).commit();
+        ft.commit();
+        //ft.replace(R.id.contentFragment,nextFragment).commit();
         return super.onOptionsItemSelected(item);
     }
     private void initFragment()
@@ -75,6 +82,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft=fm.beginTransaction();
         StudentListFragment = new StudentList();
         StudentRecordsFragment = new StudentRecords();
-        ft.replace(R.id.contentFragment,StudentListFragment).commit();
+        ft.add(R.id.contentFragment,StudentListFragment);
+        ft.add(R.id.contentFragment,StudentRecordsFragment);
+        ft.hide(StudentRecordsFragment);
+        //ft.replace(R.id.contentFragment,StudentListFragment).commit();
+        //ft.show(StudentRecordsFragment);
+        ft.commit();
     }
 }

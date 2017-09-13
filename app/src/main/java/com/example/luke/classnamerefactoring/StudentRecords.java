@@ -3,6 +3,7 @@ package com.example.luke.classnamerefactoring;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -46,12 +49,51 @@ public class StudentRecords extends Fragment {
     public void onResume() {
         ArrayList<String> late=new ArrayList<>(),checked=new ArrayList<>(),leave=new ArrayList<>(),absenteeism=new ArrayList<>();
         realm=Realm.getDefaultInstance();
-        realm.beginTransaction();
+
+       initRecordSpinner();
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.deleteFab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(), "长按有效，小心误删", Toast.LENGTH_SHORT).show();
+            }
+        });
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                realm.beginTransaction();
+                int position=nowRecordPosition;
+                RealmResults<StudentData> results = realm.where(StudentData.class).findAll();
+                if(results.size()==0)
+                {
+                    Toast.makeText(getActivity().getApplicationContext(), "没有记录啦", Toast.LENGTH_LONG).show();
+                    realm.cancelTransaction();
+                    return true;
+                }
+                results.deleteFromRealm(results.size()-position-1);
+                realm.commitTransaction();
+                Toast.makeText(getActivity().getApplicationContext(), "已删除", Toast.LENGTH_LONG).show();
+                initRecordSpinner();
+                return true;
+            }
+        });
+
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        realm.close();
+        super.onPause();
+    }
+    void initRecordSpinner()
+    {
         final ArrayList<StudentData> AllRecordsData=getRecordData(realm);
         Spinner mSpinner=(Spinner)getActivity().findViewById(R.id.records_spinner);
-        String[] mRecords=new String[AllRecordsData.size()];
-        for(int i=0;i<AllRecordsData.size();i++) {
-            mRecords[i] = AllRecordsData.get(i).getKey();
+        final String[] mRecords=new String[AllRecordsData.size()];
+        for(int i=0;i<mRecords.length;i++) {
+            mRecords[i] = AllRecordsData.get(mRecords.length-i-1).getKey();
             int cnt=0;
             char[] rep={'年','月','日'};
             StringBuilder temp=new StringBuilder(mRecords[i]);
@@ -59,7 +101,11 @@ public class StudentRecords extends Fragment {
             {
                 if(temp.charAt(j)=='_')
                     temp.setCharAt(j,rep[cnt++]);
-                if(cnt==3) break;
+                if(cnt==3)
+                {
+                    temp.insert(j+1,' ');
+                    break;
+                }
             }
             mRecords[i]=temp.toString();
         }
@@ -70,26 +116,19 @@ public class StudentRecords extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position==nowRecordPosition) return;
                 nowRecordPosition=position;
-                refreshCardView(AllRecordsData.get(position));
+                refreshCardView(AllRecordsData.get(mRecords.length-position-1));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                refreshCardView(null);
             }
 
         });
-
-        super.onResume();
+        if(mRecords.length==0)
+            refreshCardView(null);
+        else refreshCardView(AllRecordsData.get(mRecords.length-1));
     }
-
-    @Override
-    public void onPause() {
-        realm.cancelTransaction();
-        realm.close();
-        super.onPause();
-    }
-
     ArrayList<StudentData> getRecordData(Realm realm)
     {
         ArrayList<StudentData> AllRecordsData=new ArrayList<>();
@@ -97,9 +136,7 @@ public class StudentRecords extends Fragment {
         RealmResults<StudentData> results = realm.where(StudentData.class).findAll();
         for(StudentData x:results) {
             AllRecordsData.add(x);
-
         }
-
         return AllRecordsData;
     }
     void refreshCardView(StudentData now)
@@ -109,13 +146,13 @@ public class StudentRecords extends Fragment {
         leave=(TextView)getActivity().findViewById(R.id.leaveList);
         absenteeism=(TextView)getActivity().findViewById(R.id.absenteeismList);
         String lateStr="",leaveStr="",absenteeismStr="";
-
-        for(Student stu:now.list)
-        {
-            if(stu.getState()==0) absenteeismStr+=stu.getStuName()+" ";
-            if(stu.getState()==1) lateStr+=stu.getStuName()+" ";
-            if(stu.getState()==3) leaveStr+=stu.getStuName()+" ";
-        }
+        if(now!=null)
+            for(Student stu:now.list)
+            {
+                if(stu.getState()==0) absenteeismStr+=stu.getStuName()+" ";
+                if(stu.getState()==1) lateStr+=stu.getStuName()+" ";
+                if(stu.getState()==3) leaveStr+=stu.getStuName()+" ";
+            }
         late.setText(lateStr);
         leave.setText(leaveStr);
         absenteeism.setText(absenteeismStr);
