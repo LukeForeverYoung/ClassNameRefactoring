@@ -2,7 +2,7 @@ package com.example.luke.classnamerefactoring;
 
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,11 +47,9 @@ public class StudentRecords extends Fragment {
 
     @Override
     public void onResume() {
-        ArrayList<String> late=new ArrayList<>(),checked=new ArrayList<>(),leave=new ArrayList<>(),absenteeism=new ArrayList<>();
-        realm=Realm.getDefaultInstance();
 
-       initRecordSpinner();
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.deleteFab);
+        refreshView();
+        FloatingActionButton fab =getActivity().findViewById(R.id.deleteFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,10 +76,16 @@ public class StudentRecords extends Fragment {
                 return true;
             }
         });
-
         super.onResume();
     }
+    public void refreshView()
+    {
+        ArrayList<String> late=new ArrayList<>(),checked=new ArrayList<>(),leave=new ArrayList<>(),absenteeism=new ArrayList<>();
+        realm=Realm.getDefaultInstance();
 
+        initRecordSpinner();
+
+    }
     @Override
     public void onPause() {
         realm.close();
@@ -90,7 +94,7 @@ public class StudentRecords extends Fragment {
     void initRecordSpinner()
     {
         final ArrayList<StudentData> AllRecordsData=getRecordData(realm);
-        Spinner mSpinner=(Spinner)getActivity().findViewById(R.id.records_spinner);
+        Spinner mSpinner=getActivity().findViewById(R.id.records_spinner);
         final String[] mRecords=new String[AllRecordsData.size()];
         for(int i=0;i<mRecords.length;i++) {
             mRecords[i] = AllRecordsData.get(mRecords.length-i-1).getKey();
@@ -109,7 +113,7 @@ public class StudentRecords extends Fragment {
             }
             mRecords[i]=temp.toString();
         }
-        ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mRecords);
+        ArrayAdapter<String> stringAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mRecords);
         mSpinner.setAdapter(stringAdapter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -142,9 +146,9 @@ public class StudentRecords extends Fragment {
     void refreshCardView(StudentData now)
     {
         TextView late,leave,absenteeism;
-        late=(TextView)getActivity().findViewById(R.id.lateList);
-        leave=(TextView)getActivity().findViewById(R.id.leaveList);
-        absenteeism=(TextView)getActivity().findViewById(R.id.absenteeismList);
+        late=getActivity().findViewById(R.id.lateList);
+        leave=getActivity().findViewById(R.id.leaveList);
+        absenteeism=getActivity().findViewById(R.id.absenteeismList);
         String lateStr="",leaveStr="",absenteeismStr="";
         if(now!=null)
             for(Student stu:now.list)

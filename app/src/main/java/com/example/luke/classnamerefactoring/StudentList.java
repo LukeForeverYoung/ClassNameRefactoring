@@ -2,7 +2,7 @@ package com.example.luke.classnamerefactoring;
 
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -76,7 +76,7 @@ public class StudentList extends Fragment {
     }
 
     void initClassSelector() {
-        Spinner mSpinner = (Spinner) root.findViewById(R.id.class_spinner);
+        Spinner mSpinner =  root.findViewById(R.id.class_spinner);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mClassItems = sp.getString("classListSetting", "null").split(",|，");
         ArrayAdapter<String> stringAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mClassItems);
@@ -100,7 +100,7 @@ public class StudentList extends Fragment {
 
     void initFabListener() {
         FloatingActionButton fab;
-        fab = (FloatingActionButton) root.findViewById(R.id.saveFab);
+        fab =  root.findViewById(R.id.saveFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +108,7 @@ public class StudentList extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(), "保存完毕", Toast.LENGTH_SHORT).show();
             }
         });
-        fab = (FloatingActionButton) root.findViewById(R.id.changeModeFab);
+        fab =  root.findViewById(R.id.changeModeFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +123,7 @@ public class StudentList extends Fragment {
                 }
             }
         });
-        fab = (FloatingActionButton) root.findViewById(R.id.refreshFab);
+        fab = root.findViewById(R.id.refreshFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,10 +135,10 @@ public class StudentList extends Fragment {
 
     void initStudentList() {
         linearArray = new LinearLayout[4];
-        linearArray[0] = (LinearLayout) root.findViewById(R.id.yet_layout);
-        linearArray[1] = (LinearLayout) root.findViewById(R.id.late_layout);
-        linearArray[2] = (LinearLayout) root.findViewById(R.id.checked_layout);
-        linearArray[3] = (LinearLayout) root.findViewById(R.id.leave_layout);
+        linearArray[0] = root.findViewById(R.id.yet_layout);
+        linearArray[1] = root.findViewById(R.id.late_layout);
+        linearArray[2] = root.findViewById(R.id.checked_layout);
+        linearArray[3] = root.findViewById(R.id.leave_layout);
         for (LinearLayout ll : linearArray)
             ll.removeAllViews();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -154,28 +154,22 @@ public class StudentList extends Fragment {
             btn.setTag(0);
             btn.setLayoutParams(params);
             linearArray[0].addView(btn);
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ((int) v.getTag() == 0) {
-                        linearArray[0].removeView(v);
-                        v.setTag(CheckMode);
-                        linearArray[CheckMode].addView(v);
-                    } else {
-                        linearArray[(int) v.getTag()].removeView(v);
-                        v.setTag(0);
-                        linearArray[0].addView(v);
-                    }
+            btn.setOnClickListener(v -> {
+                if ((int) v.getTag() == 0) {
+                    linearArray[0].removeView(v);
+                    v.setTag(CheckMode);
+                    linearArray[CheckMode].addView(v);
+                } else {
+                    linearArray[(int) v.getTag()].removeView(v);
+                    v.setTag(0);
+                    linearArray[0].addView(v);
                 }
             });
-            btn.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    linearArray[(int) v.getTag()].removeView(v);
-                    v.setTag(3);
-                    linearArray[3].addView(v);
-                    return true;
-                }
+            btn.setOnLongClickListener(v -> {
+                linearArray[(int) v.getTag()].removeView(v);
+                v.setTag(3);
+                linearArray[3].addView(v);
+                return true;
             });
             ord++;
         }

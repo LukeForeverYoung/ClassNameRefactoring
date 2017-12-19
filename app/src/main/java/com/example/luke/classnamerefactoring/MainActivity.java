@@ -1,6 +1,6 @@
 package com.example.luke.classnamerefactoring;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,14 +24,18 @@ import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity {
 
-    Fragment StudentListFragment,StudentRecordsFragment;
+    StudentList StudentListFragment;
+    StudentRecords StudentRecordsFragment;
+    private FragmentPagerAdapter mAdapter;
+    ViewPager vp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initFragment();
+        //initFragment();
+        initViewPaper();
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
         Realm.setDefaultConfiguration(realmConfiguration);
@@ -40,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -54,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(toSetting);
             return super.onOptionsItemSelected(item);
         }
+
         FragmentManager fm= getFragmentManager();
         FragmentTransaction ft=fm.beginTransaction();
         Fragment nextFragment=null;
@@ -76,6 +84,49 @@ public class MainActivity extends AppCompatActivity {
         //ft.replace(R.id.contentFragment,nextFragment).commit();
         return super.onOptionsItemSelected(item);
     }
+    */
+    private void  initViewPaper()
+    {
+        vp=findViewById(R.id.view_pager);
+        StudentListFragment=new StudentList();
+        StudentRecordsFragment=new StudentRecords();
+        mAdapter=new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public android.support.v4.app.Fragment getItem(int position) {
+                switch (position)
+                {
+                    case 0:
+                        return StudentListFragment;
+                    case 1:
+                        return StudentRecordsFragment;
+                }
+                return null;
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        };
+        vp.setAdapter(mAdapter);
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                vp.setCurrentItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                StudentRecordsFragment.refreshView();
+            }
+        });
+    }
+    /*
     private void initFragment()
     {
         FragmentManager fm= getFragmentManager();
@@ -89,4 +140,5 @@ public class MainActivity extends AppCompatActivity {
         //ft.show(StudentRecordsFragment);
         ft.commit();
     }
+    */
 }
