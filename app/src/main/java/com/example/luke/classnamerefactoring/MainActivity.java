@@ -47,44 +47,17 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-    /*
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if(id==R.id.action_settings)
-        {
-            Intent toSetting = new Intent();
-            toSetting.setClass(MainActivity.this,SettingActivity.class);
-            startActivity(toSetting);
-            return super.onOptionsItemSelected(item);
-        }
 
-        FragmentManager fm= getFragmentManager();
-        FragmentTransaction ft=fm.beginTransaction();
-        Fragment nextFragment=null;
-        switch (id)
-        {
-            case R.id.action_main:
-                ft.hide(StudentRecordsFragment);
-                nextFragment=StudentListFragment;
-                ft.show(nextFragment);
-                break;
-            case R.id.action_list:
-                ft.hide(StudentListFragment);
-                ft.remove(StudentRecordsFragment);
-                StudentRecordsFragment=new StudentRecords();
-                ft.add(R.id.contentFragment,StudentRecordsFragment);
-                nextFragment=StudentRecordsFragment;
-                break;
-        }
-        ft.commit();
-        //ft.replace(R.id.contentFragment,nextFragment).commit();
+        Intent toSetting = new Intent();
+        toSetting.setClass(MainActivity.this,SettingActivity.class);
+        startActivity(toSetting);
         return super.onOptionsItemSelected(item);
+
     }
-    */
+
     private void  initViewPaper()
     {
         vp=findViewById(R.id.view_pager);
