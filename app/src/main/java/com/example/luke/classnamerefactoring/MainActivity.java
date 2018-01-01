@@ -1,23 +1,16 @@
 package com.example.luke.classnamerefactoring;
 
-import android.support.v4.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
-import android.app.FragmentManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.Set;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -28,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     StudentRecords StudentRecordsFragment;
     private FragmentPagerAdapter mAdapter;
     ViewPager vp;
+    BottomNavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +30,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //initFragment();
         initViewPaper();
+        initNavigation();
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
         Realm.setDefaultConfiguration(realmConfiguration);
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -57,7 +51,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
-
+    private void initNavigation() {
+        navigationView=findViewById(R.id.navigation);
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                vp.setCurrentItem(item.getOrder()-1,true);
+                return false;
+            }
+        });
+    }
     private void  initViewPaper()
     {
         vp=findViewById(R.id.view_pager);
