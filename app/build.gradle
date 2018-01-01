@@ -5,8 +5,8 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.luke.classnamerefactoring"
-        minSdkVersion 23
-        targetSdkVersion 23
+        minSdkVersion 25
+        targetSdkVersion 25
         versionCode 3
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

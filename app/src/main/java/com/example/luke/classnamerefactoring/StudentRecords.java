@@ -50,31 +50,22 @@ public class StudentRecords extends Fragment {
 
         refreshView();
         FloatingActionButton fab =getActivity().findViewById(R.id.deleteFab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity().getApplicationContext(), "长按有效，小心误删", Toast.LENGTH_SHORT).show();
-            }
-        });
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                realm.beginTransaction();
-                int position=nowRecordPosition;
-                RealmResults<StudentData> results = realm.where(StudentData.class).findAll();
-                if(results.size()==0)
-                {
-                    Toast.makeText(getActivity().getApplicationContext(), "没有记录啦", Toast.LENGTH_LONG).show();
-                    realm.cancelTransaction();
-                    return true;
-                }
-                results.deleteFromRealm(results.size()-position-1);
-                realm.commitTransaction();
-                Toast.makeText(getActivity().getApplicationContext(), "已删除", Toast.LENGTH_LONG).show();
-                initRecordSpinner();
+        fab.setOnClickListener(v -> Toast.makeText(getActivity().getApplicationContext(), "长按有效，小心误删", Toast.LENGTH_SHORT).show());
+        fab.setOnLongClickListener(v -> {
+            realm.beginTransaction();
+            int position=nowRecordPosition;
+            RealmResults<StudentData> results = realm.where(StudentData.class).findAll();
+            if(results.size()==0)
+            {
+                Toast.makeText(getActivity().getApplicationContext(), "没有记录啦", Toast.LENGTH_LONG).show();
+                realm.cancelTransaction();
                 return true;
             }
+            results.deleteFromRealm(results.size()-position-1);
+            realm.commitTransaction();
+            Toast.makeText(getActivity().getApplicationContext(), "已删除", Toast.LENGTH_LONG).show();
+            initRecordSpinner();
+            return true;
         });
         super.onResume();
     }

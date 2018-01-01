@@ -49,8 +49,7 @@ public class StudentList extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         root = getActivity();
-        View temp=inflater.inflate(R.layout.fragment_student_list, container, false);
-        return temp;
+        return inflater.inflate(R.layout.fragment_student_list, container, false);
     }
 
     @Override
@@ -101,35 +100,26 @@ public class StudentList extends Fragment {
     void initFabListener() {
         FloatingActionButton fab;
         fab =  root.findViewById(R.id.saveFab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                savingData();
-                Toast.makeText(getActivity().getApplicationContext(), "保存完毕", Toast.LENGTH_SHORT).show();
-            }
+        fab.setOnClickListener(v -> {
+            savingData();
+            Toast.makeText(getActivity().getApplicationContext(), "保存完毕", Toast.LENGTH_SHORT).show();
         });
         fab =  root.findViewById(R.id.changeModeFab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (CheckMode == 2) {
-                    CheckMode = 1;
-                    v.getBackground().setColorFilter(getResources().getColor(R.color.origin, null), PorterDuff.Mode.SRC);
-                    Toast.makeText(getActivity().getApplicationContext(), "迟到模式", Toast.LENGTH_SHORT).show();
-                } else {
-                    CheckMode = 2;
-                    v.getBackground().setColorFilter(getResources().getColor(R.color.blueName, null), PorterDuff.Mode.SRC);
-                    Toast.makeText(getActivity().getApplicationContext(), "签到模式", Toast.LENGTH_SHORT).show();
-                }
+        fab.setOnClickListener(v -> {
+            if (CheckMode == 2) {
+                CheckMode = 1;
+                v.getBackground().setColorFilter(getResources().getColor(R.color.origin, null), PorterDuff.Mode.SRC);
+                Toast.makeText(getActivity().getApplicationContext(), "迟到模式", Toast.LENGTH_SHORT).show();
+            } else {
+                CheckMode = 2;
+                v.getBackground().setColorFilter(getResources().getColor(R.color.blueName, null), PorterDuff.Mode.SRC);
+                Toast.makeText(getActivity().getApplicationContext(), "签到模式", Toast.LENGTH_SHORT).show();
             }
         });
         fab = root.findViewById(R.id.refreshFab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initClassSelector();
-                initStudentList();
-            }
+        fab.setOnClickListener(v -> {
+            initClassSelector();
+            initStudentList();
         });
     }
 
@@ -142,7 +132,7 @@ public class StudentList extends Fragment {
         for (LinearLayout ll : linearArray)
             ll.removeAllViews();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mStudentItems = sp.getString("studentListSetting", "null").split(",|，");
+        mStudentItems = sp.getString("studentListSetting", "null").split("[,，]");
         mStudentButton = new Button[mStudentItems.length];
         int ord = 0;
         for (String stu : mStudentItems) {
@@ -177,7 +167,7 @@ public class StudentList extends Fragment {
 
     void savingData() {
         Calendar cal = Calendar.getInstance();
-        String key = cal.get(Calendar.YEAR) + "_" +(Integer.valueOf(cal.get(Calendar.MONTH))+1) + "_" + cal.get(Calendar.DAY_OF_MONTH)+"_" + mClassItems[classTag];
+        String key = cal.get(Calendar.YEAR) + "_" +(cal.get(Calendar.MONTH) +1) + "_" + cal.get(Calendar.DAY_OF_MONTH)+"_" + mClassItems[classTag];
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         RealmResults<StudentData> results = realm.where(StudentData.class).equalTo("key", key).findAll();

@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -53,12 +52,9 @@ public class MainActivity extends AppCompatActivity {
     }
     private void initNavigation() {
         navigationView=findViewById(R.id.navigation);
-        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                vp.setCurrentItem(item.getOrder()-1,true);
-                return false;
-            }
+        navigationView.setOnNavigationItemSelectedListener(item -> {
+            vp.setCurrentItem(item.getOrder()-1,true);
+            return false;
         });
     }
     private void  initViewPaper()
